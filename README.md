@@ -1,3 +1,25 @@
+## Setup
+
+### Setup main module
+
+```
+virtualenv -p python3 .env
+source .env/bin/activate
+pip install -r requirements.txt
+```
+
+### Setup submodule
+
+```
+git submodule init
+git submodule update
+```
+
+
+
+
+# OLD
+
 # Hand Signs Recognition with Tensorflow
 
 *Authors: Olivier Moindrot and Guillaume Genthial*
