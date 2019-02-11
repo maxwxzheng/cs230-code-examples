@@ -1,6 +1,8 @@
-## Setup
+## First Time Setup
 
-### Setup main module
+Make sure your python3 version is python3.6.
+
+### Setup Main Module
 
 ```
 virtualenv -p python3 .env
@@ -8,7 +10,7 @@ source .env/bin/activate
 pip install -r requirements.txt
 ```
 
-### Setup submodule
+### Setup Submodule
 
 ```
 git submodule init
