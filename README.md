@@ -2,22 +2,37 @@
 
 Make sure your python3 version is python3.6. This repo does not work with python3.7.
 
-### Setup Main Module
-
+#### Setup Main Module
 ```
 virtualenv -p python3 .env
 source .env/bin/activate
 pip install -r requirements.txt
 ```
 
-### Setup Submodule
-
+#### Setup Submodule
 ```
 git submodule init
 git submodule update
 ```
 
+#### Setup tf-pose-estimation
+```
+cd tf-pose-estimation
+pip install -r requirements.txt
+cd tf_pose/pafprocess
+brew install swig
+swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
+```
 
+## Everytime before working on the project
+```
+source .env/bin/activate
+```
+
+## Everytime when done with the project
+```
+deactivate
+```
 
 
 # OLD
