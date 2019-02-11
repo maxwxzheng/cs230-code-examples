@@ -1,6 +1,6 @@
 ## First Time Setup
 
-Make sure your python3 version is python3.6.
+Make sure your python3 version is python3.6. This repo does not work with python3.7.
 
 ### Setup Main Module
 
