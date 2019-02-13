@@ -1,0 +1,24 @@
+# Each video in data/raw_data includes multiple squats.
+# This file maps each video name to an array of clip parameters.
+# Each entry in the array represents the parameters of a clip (a full squat).
+# Format of 'start' and 'end' is 'HH:MM:SS:ss'.
+# 'ss' represents fractional second. Range is [0, 29]. This is mainly because
+# the software 'Wondershare Filmora9' we used to view the videos displays time
+# this way.
+# 'HH' and 'MM' are optional.
+VID_20190206_215714.mp4:
+  - start: '1:10'
+    end: '3:20'
+    label: 1
+  - start: '3:21'
+    end: '6:00'
+    label: 1
+  - start: '6:04'
+    end: '8:10'
+    label: 1
+  - start: '8:13'
+    end: '10:16'
+    label: 1
+  - start: '10:19'
+    end: '12:18'
+    label: 1
