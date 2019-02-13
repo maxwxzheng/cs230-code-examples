@@ -9,16 +9,8 @@ source .env/bin/activate
 pip install -r requirements.txt
 ```
 
-#### Setup Submodule
+#### Setup tf-pose
 ```
-git submodule init
-git submodule update
-```
-
-#### Setup tf-pose-estimation
-```
-cd tf-pose-estimation
-pip install -r requirements.txt
 cd tf_pose/pafprocess
 brew install swig
 swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
