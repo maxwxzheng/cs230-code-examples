@@ -1,29 +1,19 @@
-"""
-Use tf-pose-estimation to analyze the image.
-"""
 import cv2
 import yaml
+import constants
 from tf_pose.estimator import TfPoseEstimator
 
-class DataPreProcessor():
+class DataProcessor():
 
   def __init__(self):
-    self.sequence_squat_all = 'data/sequence_squat_all'
-    self.sequence_squat_test = 'data/sequence_squat_test'
-    self.sequence_squat_train = 'data/sequence_squat_all_train'
-
-    self.full_squat_all = 'data/full_squat_all'
-    self.full_squat_test = 'data/full_squat_test'
-    self.full_squat_train = 'data/full_squat_train'
-
     self.raw_data_params = yaml.load(open('raw_data_params.yml'))
 
     graph_path = 'tf_pose/graph/mobilenet_thin/graph_opt.pb'
     self.pose_estimator = TfPoseEstimator(graph_path, target_size=(324, 576))
 
-  def extract_all_videos(extract_sequence_frames=False, extract_full_frames=False):
+  def extract_all_videos(self, extract_sequence_frames=False, extract_full_frames=False):
     for file_name in self.raw_data_params.keys():
-      extract_all_frames_from_video(self, file_name, extract_sequence_frames, extract_full_frames):
+      self.extract_all_frames_from_video(file_name, extract_sequence_frames, extract_full_frames)
 
   def extract_all_frames_from_video(self, file_name, extract_sequence_frames=False, extract_full_frames=False):
     cap = cv2.VideoCapture("data/raw_data/{}".format(file_name))
@@ -57,8 +47,8 @@ class DataPreProcessor():
     # Input video fps
     fps = cap.get(cv2.CAP_PROP_FPS)
 
-    start_sec = DataPreProcessor.time_to_seconds(start)
-    end_sec = DataPreProcessor.time_to_seconds(end)
+    start_sec = DataProcessor.time_to_seconds(start)
+    end_sec = DataProcessor.time_to_seconds(end)
 
     start_frame = int(fps * start_sec)
     end_frame = int(fps * end_sec)
@@ -68,24 +58,25 @@ class DataPreProcessor():
     for i in range(end_frame - start_frame + 1):
       success, frame = cap.read()
       if not success:
-        raise Exception("Failed to read frame {}".format(i + start_frame))
+        continue
+        # raise Exception("Failed to read frame {} in file {}".format(i + start_frame, file_name_prefix))
 
       # We only need to extract the middle frame for full-squat 
       extract_full_frames_for_i = (extract_full_frames and i == int((end_frame - start_frame) / 2) + 1)
 
       if extract_sequence_frames or extract_full_frames_for_i:
         frame = cv2.resize(frame, (0,0), fx=0.3, fy=0.3)
-        rotated_frame = DataPreProcessor.rotate_frame_clockwise_90_degrees(frame)
+        rotated_frame = DataProcessor.rotate_frame_clockwise_90_degrees(frame)
         pose_frame = self.add_pose(rotated_frame)
 
         # Write all frames to sequence_squat_all
         if extract_sequence_frames:
-          file_path = "{}/{}_{}.jpg".format(self.sequence_squat_all, file_name_prefix, i)
+          file_path = "{}/{}_{}.jpg".format(constants.SEQUENCE_SQUAT_ALL_FOLDER, file_name_prefix, i)
           cv2.imwrite(file_path, pose_frame)
 
         # Write the middle frame to full_squat_all
         if extract_full_frames_for_i:
-          file_path = "{}/{}_{}.jpg".format(self.full_squat_all, file_name_prefix, i)
+          file_path = "{}/{}_{}.jpg".format(constants.FULL_SQUAT_ALL_FOLDER, file_name_prefix, i)
           cv2.imwrite(file_path, pose_frame)
 
   # Use the pose_estimator to add the pose on top of the given frame.

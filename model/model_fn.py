@@ -17,7 +17,7 @@ def build_model(is_training, inputs, params):
     """
     images = inputs['images']
 
-    assert images.get_shape().as_list() == [None, params.image_size, params.image_size, 3]
+    assert images.get_shape().as_list() == [None, params.image_width, params.image_height, 3]
 
     out = images
     # Define the number of channels of each convolution
@@ -33,9 +33,9 @@ def build_model(is_training, inputs, params):
             out = tf.nn.relu(out)
             out = tf.layers.max_pooling2d(out, 2, 2)
 
-    assert out.get_shape().as_list() == [None, 4, 4, num_channels * 8]
-
-    out = tf.reshape(out, [-1, 4 * 4 * num_channels * 8])
+    out_width = out.get_shape().as_list()[1]
+    out_height = out.get_shape().as_list()[2]
+    out = tf.reshape(out, [-1, out_width * out_height * num_channels * 8])
     with tf.variable_scope('fc_1'):
         out = tf.layers.dense(out, num_channels * 8)
         if params.use_batch_norm:
