@@ -16,3 +16,4 @@ slidingwindow
 tqdm
 git+https://github.com/ppwwyyxx/tensorpack.git
 pyyaml
+keras

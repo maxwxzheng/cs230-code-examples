@@ -3,7 +3,7 @@ import random
 import shutil
 
 import constants
-import utils
+from utils import Utils
 
 class DataShuffler():
 
@@ -26,7 +26,7 @@ class DataShuffler():
     os.mkdir(dev_dir)
     os.mkdir(train_dir)
 
-    filenames = utils.get_image_names(all_dir)
+    filenames = Utils.get_image_names(all_dir)
 
     # Split the images into 80% train and 20% dev
     # Make sure to always shuffle with a fixed seed so that the split is reproducible

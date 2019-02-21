@@ -9,7 +9,7 @@ class DataProcessor():
     self.raw_data_params = yaml.load(open('raw_data_params.yml'))
 
     graph_path = 'tf_pose/graph/mobilenet_thin/graph_opt.pb'
-    self.pose_estimator = TfPoseEstimator(graph_path, target_size=(324, 576))
+    self.pose_estimator = TfPoseEstimator(graph_path, target_size=(constants.IMAGE_WIDTH, constants.IMAGE_HEIGHT))
 
   def extract_all_videos(self, extract_sequence_frames=False, extract_full_frames=False):
     for file_name in self.raw_data_params.keys():
@@ -65,7 +65,7 @@ class DataProcessor():
       extract_full_frames_for_i = (extract_full_frames and i == int((end_frame - start_frame) / 2) + 1)
 
       if extract_sequence_frames or extract_full_frames_for_i:
-        frame = cv2.resize(frame, (0,0), fx=0.3, fy=0.3)
+        frame = cv2.resize(frame, (0,0), fx=constants.IMAGE_WIDTH / frame.shape[0], fy=constants.IMAGE_HEIGHT / frame.shape[1])
         rotated_frame = DataProcessor.rotate_frame_clockwise_90_degrees(frame)
         pose_frame = self.add_pose(rotated_frame)
 

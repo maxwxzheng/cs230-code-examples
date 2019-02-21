@@ -13,11 +13,6 @@ class CnnModel():
         # TF Estimator input is a dict, in case of multiple inputs
         x = x_dict['images']
 
-        # MNIST data input is a 1-D vector of 784 features (28*28 pixels)
-        # Reshape to match picture format [Height x Width x Channel]
-        # Tensor input become 4-D: [Batch Size, Height, Width, Channel]
-        x = tf.reshape(x, shape=[-1, 28, 28, 1])
-
         # Convolution Layer with 32 filters and a kernel size of 5
         conv1 = tf.layers.conv2d(x, 32, 5, activation=tf.nn.relu)
         # Max Pooling (down-sampling) with strides of 2 and kernel size of 2
