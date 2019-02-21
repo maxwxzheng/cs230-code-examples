@@ -23,24 +23,24 @@ class KerasModel():
     dev_labels = to_categorical(dev_labels)
 
     vgg16 = applications.VGG16(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
-    
+
     for layer in vgg16.layers:
       layer.trainable = False
+    x = vgg16.layers[3].output
 
-    x = vgg16.layers[15].output
     x = Flatten()(x)
-    x = Dense(256, activation="relu")(x)
-    x = Dense(128, activation="relu")(x)
+    x = Dense(64, activation="relu")(x)
     predictions = Dense(2, activation='sigmoid')(x)
     model_final = Model(input=vgg16.input, output=predictions)
+    print(model_final.layers)
 
     model_final.compile(loss = "binary_crossentropy",
-                        optimizer = keras.optimizers.Adam(lr=0.001),
+                        optimizer = keras.optimizers.Adam(lr=0.0000001),
                         metrics=["accuracy"])
 
     model_final.fit(train_images, train_labels,
                     batch_size=len(train_images),
-                    epochs=5,
+                    epochs=10,
                     verbose=1,
                     validation_data=(dev_images, dev_labels))
     score = model_final.evaluate(dev_images, dev_labels, verbose=0)
