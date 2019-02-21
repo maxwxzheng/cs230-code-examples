@@ -1,8 +1,22 @@
 import cv2
 import yaml
+
 import constants
 from tf_pose.estimator import TfPoseEstimator
+from utils import Utils
 
+"""
+DataProcessor is used to convert videos of squats into individual images.
+It should only be used under one of the following cases:
+  - Initial setup
+  - When we collect more videos
+  - When we changed parameters for the images e.g. resize ratio.
+
+E.g.
+from data_processor import DataProcessor
+processor = DataProcessor()
+processor.extract_all_videos(False, True)
+"""
 class DataProcessor():
 
   def __init__(self):
@@ -52,6 +66,12 @@ class DataProcessor():
 
     start_frame = int(fps * start_sec)
     end_frame = int(fps * end_sec)
+
+    if extract_sequence_frames:
+      Utils.remake_folder(constants.SEQUENCE_SQUAT_ALL_FOLDER)
+
+    if extract_full_frames:
+      Utils.remake_folder(constants.FULL_SQUAT_ALL_FOLDER)
 
     # Run transformation on each frame. Append transformed frame to writer.
     cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)

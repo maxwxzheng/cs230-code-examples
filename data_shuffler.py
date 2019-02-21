@@ -1,30 +1,35 @@
-import os
 import random
 import shutil
 
 import constants
 from utils import Utils
 
-class DataShuffler():
+"""
+DataShuffler is used to shuffle squat images from 'all' folder into 'train' and 'dev' folders.
 
-  def shuffle_full_squat_data():
+E.g.
+from data_shuffler import DataShuffler
+DataShuffler.shuffle_full_squat_data()
+"""
+class DataShuffler:
+
+  # Shuffle full squat data from 'all' folder into 'train' and 'dev' folders.
+  def shuffle_full_squat_data(train_ratio=0.8, random_seed=230):
     DataShuffler.shuffle_data(
       constants.FULL_SQUAT_ALL_FOLDER,
       constants.FULL_SQUAT_DEV_FOLDER,
       constants.FULL_SQUAT_TRAIN_FOLDER)
 
-  def shuffle_sequence_squat_data():
+  # Shuffle sequence squat data from 'all' folder into 'train' and 'dev' folders.
+  def shuffle_sequence_squat_data(train_ratio=0.8, random_seed=230):
     DataShuffler.shuffle_data(
       constants.SEQUENCE_SQUAT_ALL_FOLDER,
       constants.SEQUENCE_SQUAT_DEV_FOLDER,
       constants.SEQUENCE_SQUAT_TRAIN_FOLDER)
 
   def shuffle_data(all_dir, dev_dir, train_dir):
-    # Removes existing dev and train directories and recreate them.
-    shutil.rmtree(dev_dir)
-    shutil.rmtree(train_dir)
-    os.mkdir(dev_dir)
-    os.mkdir(train_dir)
+    Utils.remake_folder(dev_dir)
+    Utils.remake_folder(train_dir)
 
     filenames = Utils.get_image_names(all_dir)
 

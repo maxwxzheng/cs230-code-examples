@@ -1,4 +1,5 @@
 import os
+import shutil
 
 class Utils:
 
@@ -11,3 +12,8 @@ class Utils:
     filenames = [f for f in filenames if f.endswith('.jpg')]
 
     return filenames
+
+  # Deletes the given dir and remake a new one.
+  def remake_folder(dir):
+    shutil.rmtree(dir)
+    os.mkdir(dir)
