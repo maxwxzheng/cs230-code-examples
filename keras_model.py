@@ -14,7 +14,7 @@ from utils import Utils
 
 class KerasModel():
 
-  def run():
+  def run(epochs=50, batch_size=-1, base_model='VGG16', base_model_layer=0, learning_rate=0.0001):
     train_images, train_labels = KerasModel.load_images_and_labels(constants.FULL_SQUAT_TRAIN_FOLDER)
     dev_images, dev_labels = KerasModel.load_images_and_labels(constants.FULL_SQUAT_DEV_FOLDER)
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
@@ -22,25 +22,38 @@ class KerasModel():
     train_labels = to_categorical(train_labels)
     dev_labels = to_categorical(dev_labels)
 
-    vgg16 = applications.VGG16(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
+    if base_model == 'VGG16':
+      base_model = applications.VGG16(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
+    elif base_model == 'VGG19':
+      base_model = applications.VGG19(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
+    elif base_model == 'ResNet50':
+      base_model = applications.ResNet50(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
+    else:
+      raise 'Unknown base model'
 
-    for layer in vgg16.layers:
-      layer.trainable = False
-    x = vgg16.layers[3].output
+    if base_model_layer == -1:
+      x = base_model.layers[-1].output
+    else:
+      for layer in base_model.layers:
+        layer.trainable = False
+      x = base_model.layers[base_model_layer].output
 
     x = Flatten()(x)
     x = Dense(64, activation="relu")(x)
     predictions = Dense(2, activation='sigmoid')(x)
-    model_final = Model(input=vgg16.input, output=predictions)
+    model_final = Model(input=base_model.input, output=predictions)
     print(model_final.layers)
 
     model_final.compile(loss = "binary_crossentropy",
-                        optimizer = keras.optimizers.Adam(lr=0.0000001),
+                        optimizer = keras.optimizers.Adam(lr=learning_rate),
                         metrics=["accuracy"])
 
+    if batch_size == -1:
+      batch_size = len(train_images)
+
     model_final.fit(train_images, train_labels,
-                    batch_size=len(train_images),
-                    epochs=10,
+                    batch_size=batch_size,
+                    epochs=epochs,
                     verbose=1,
                     validation_data=(dev_images, dev_labels))
     score = model_final.evaluate(dev_images, dev_labels, verbose=0)

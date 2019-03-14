@@ -1,5 +1,6 @@
 import cv2
 import yaml
+import numpy as np
 
 import constants
 from tf_pose.estimator import TfPoseEstimator
@@ -25,11 +26,17 @@ class DataProcessor():
     graph_path = 'tf_pose/graph/mobilenet_thin/graph_opt.pb'
     self.pose_estimator = TfPoseEstimator(graph_path, target_size=(constants.IMAGE_WIDTH, constants.IMAGE_HEIGHT))
 
-  def extract_all_videos(self, extract_sequence_frames=False, extract_full_frames=False):
-    for file_name in self.raw_data_params.keys():
-      self.extract_all_frames_from_video(file_name, extract_sequence_frames, extract_full_frames)
+  def extract_all_videos(self, extract_sequence_frames=False, extract_full_frames=False, use_original_image=False):
+    if extract_sequence_frames:
+      Utils.remake_folder(constants.SEQUENCE_SQUAT_ALL_FOLDER)
 
-  def extract_all_frames_from_video(self, file_name, extract_sequence_frames=False, extract_full_frames=False):
+    if extract_full_frames:
+      Utils.remake_folder(constants.FULL_SQUAT_ALL_FOLDER)
+
+    for file_name in self.raw_data_params.keys():
+      self.extract_all_frames_from_video(file_name, extract_sequence_frames, extract_full_frames, use_original_image)
+
+  def extract_all_frames_from_video(self, file_name, extract_sequence_frames=False, extract_full_frames=False, use_original_image=False):
     cap = cv2.VideoCapture("data/raw_data/{}".format(file_name))
 
     video_params = self.raw_data_params[file_name]
@@ -40,7 +47,7 @@ class DataProcessor():
       end = squat_params['end']
       label = squat_params['label']
       file_name_prefix = "{}_{}_{}".format(file_name, i, label)
-      self.extract_frames_from_start_to_end(cap, file_name_prefix, start, end, extract_sequence_frames, extract_full_frames)
+      self.extract_frames_from_start_to_end(cap, file_name_prefix, start, end, extract_sequence_frames, extract_full_frames, use_original_image)
 
   """
   Extracts the individual frames from the video in cap. Resizes and adds pose
@@ -57,7 +64,7 @@ class DataProcessor():
     extract_full_frames: (Boolean) if true, saves the middle frame into the
         full_squat_all_folder.
   """
-  def extract_frames_from_start_to_end(self, cap, file_name_prefix, start, end, extract_sequence_frames=False, extract_full_frames=False):
+  def extract_frames_from_start_to_end(self, cap, file_name_prefix, start, end, extract_sequence_frames=False, extract_full_frames=False, use_original_image=False):
     # Input video fps
     fps = cap.get(cv2.CAP_PROP_FPS)
 
@@ -66,12 +73,6 @@ class DataProcessor():
 
     start_frame = int(fps * start_sec)
     end_frame = int(fps * end_sec)
-
-    if extract_sequence_frames:
-      Utils.remake_folder(constants.SEQUENCE_SQUAT_ALL_FOLDER)
-
-    if extract_full_frames:
-      Utils.remake_folder(constants.FULL_SQUAT_ALL_FOLDER)
 
     # Run transformation on each frame. Append transformed frame to writer.
     cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
@@ -87,7 +88,7 @@ class DataProcessor():
       if extract_sequence_frames or extract_full_frames_for_i:
         frame = cv2.resize(frame, (0,0), fx=constants.IMAGE_WIDTH / frame.shape[0], fy=constants.IMAGE_HEIGHT / frame.shape[1])
         rotated_frame = DataProcessor.rotate_frame_clockwise_90_degrees(frame)
-        pose_frame = self.add_pose(rotated_frame)
+        pose_frame = self.add_pose(rotated_frame, use_original_image)
 
         # Write all frames to sequence_squat_all
         if extract_sequence_frames:
@@ -100,9 +101,14 @@ class DataProcessor():
           cv2.imwrite(file_path, pose_frame)
 
   # Use the pose_estimator to add the pose on top of the given frame.
-  def add_pose(self, frame):
+  def add_pose(self, frame, use_original_image=False):
     humans = self.pose_estimator.inference(frame, resize_to_default=True, upsample_size=4.0)
-    frame = TfPoseEstimator.draw_humans(frame, humans, imgcopy=False)
+
+    if use_original_image:
+      frame = TfPoseEstimator.draw_humans(frame, humans, imgcopy=False)
+    else:
+      frame = TfPoseEstimator.draw_humans(np.zeros(frame.shape), humans, imgcopy=False)
+
     return frame
 
   # Rotate the frame clockwise by 90 degrees.
