@@ -24,10 +24,10 @@ class KerasModel():
 
     if base_model == 'VGG16':
       base_model = applications.VGG16(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
-    elif base_model == 'VGG19':
-      base_model = applications.VGG19(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
     elif base_model == 'ResNet50':
       base_model = applications.ResNet50(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
+    elif base_model == 'Xception':
+      base_model = applications.Xception(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
     else:
       raise 'Unknown base model'
 
