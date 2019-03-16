@@ -1,696 +1,918 @@
 # Each video in data/raw_data includes multiple squats.
 # This file maps each video name to an array of clip parameters.
 # Each entry in the array represents the parameters of a clip (a full squat).
-# Format of 'start' and 'end' is 'HH:MM:SS:ss'.
+# Format of 'start', 'mid' and 'end' is 'HH:MM:SS:ss'.
 # 'ss' represents fractional second. Range is [0, 29]. This is mainly because
 # the software 'Wondershare Filmora9' we used to view the videos displays time
 # this way.
 # 'HH' and 'MM' are optional.
 VID_20190206_215714.mp4:
   - start: '1:10'
+    mid: '2:15'
     end: '3:20'
     label: 1
   - start: '3:21'
+    mid: '4:28'
     end: '6:00'
     label: 1
   - start: '6:04'
+    mid: '7:06'
     end: '8:10'
     label: 1
   - start: '8:13'
+    mid: '9:16'
     end: '10:16'
     label: 1
   - start: '10:19'
+    mid: '11:22'
     end: '12:18'
     label: 1
 VID_20190206_215735.mp4:
   - start: '1:09'
+    mid: '2:11'
     end: '3:09'
     label: 0
   - start: '3:13'
+    mid: '4:11'
     end: '5:06'
     label: 0
   - start: '5:15'
+    mid: '6:12'
     end: '7:10'
     label: 0
   - start: '7:13'
+    mid: '8:13'
     end: '9:13'
     label: 0
   - start: '9:19'
+    mid: '10:12'
     end: '11:08'
     label: 0
 VID_20190206_215828.mp4:
   - start: '1:09'
+    mid: '2:10'
     end: '3:10'
     label: 1
   - start: '3:13'
+    mid: '4:15'
     end: '5:16'
     label: 1
   - start: '5:20'
+    mid: '6:20'
     end: '7:28'
     label: 1
   - start: '7:29'
+    mid: '9:01'
     end: '10:03'
     label: 1
   - start: '10:10'
+    mid: '11:09'
     end: '12:18'
     label: 1
 VID_20190206_215849.mp4:
   - start: '0:00'
+    mid: '1:03'
     end: '2:13'
     label: 0
   - start: '2:14'
+    mid: '3:19'
     end: '4:26'
     label: 0
   - start: '4:27'
+    mid: '6:09'
     end: '7:21'
     label: 0
   - start: '7:23'
+    mid: '8:27'
     end: '10:07'
     label: 0
   - start: '10:08'
+    mid: '11:20'
     end: '12:27'
     label: 0
 VID_20190206_215956.mp4:
   - start: '0:00'
+    mid: '0:16'
     end: '1:17'
     label: 1
   - start: '1:17'
+    mid: '2:19'
     end: '3:19'
     label: 1
   - start: '3:20'
+    mid: '4:14'
     end: '5:15'
     label: 1
   - start: '5:17'
+    mid: '6:13'
     end: '7:16'
     label: 1
   - start: '7:17'
+    mid: '8:11'
     end: '9:14'
     label: 1
 VID_20190206_220013.mp4:
   - start: '0:00'
+    mid: '1:11'
     end: '2:21'
     label: 0
   - start: '2:22'
+    mid: '3:23'
     end: '4:23'
     label: 0
   - start: '4:24'
+    mid: '6:14'
     end: '7:19'
     label: 0
   - start: '7:20'
+    mid: '8:20'
     end: '9:26'
     label: 0
 VID_20190206_220116.mp4:
   - start: '0:00'
+    mid: '0:25'
     end: '2:13'
     label: 1
   - start: '2:14'
+    mid: '3:21'
     end: '5:06'
     label: 1
   - start: '5:10'
+    mid: '6:13'
     end: '7:25'
     label: 1
   - start: '7:26'
+    mid: '9:10'
     end: '10:25'
     label: 1
   - start: '10:25'
+    mid: '12:02'
     end: '13:11'
     label: 1
 VID_20190206_220013.mp4:
   - start: '0:00'
+    mid: '0:28'
     end: '2:17'
     label: 0
   - start: '2:18'
+    mid: '3:16'
     end: '4:26'
     label: 0
   - start: '4:30'
+    mid: '6:05'
     end: '7:25'
     label: 0
   - start: '7:26'
+    mid: '8:22'
     end: '9:25'
     label: 0
   - start: '9:26'
+    mid: '11:00'
     end: '11:26'
     label: 0
 VID_20190206_220400.mp4:
   - start: '0:00'
+    mid: '0:07'
     end: '1:23'
-    label: 1 #dont change
+    label: 1
   - start: '1:24'
+    mid: '3:05'
     end: '3:24'
     label: 0
   - start: '3:25'
+    mid: '4:12'
     end: '4:27'
     label: 1
   - start: '4:27'
+    mid: '5:13'
     end: '5:27'
     label: 0
   - start: '5:26'
+    mid: '6:16'
     end: '7:07'
     label: 0
 VID_20190206_220415.mp4:
   - start: '0:00'
+    mid: '2:05'
     end: '2:25'
     label: 0
   - start: '2:26'
+    mid: '3:19'
     end: '4:12'
     label: 0
   - start: '4:13'
+    mid: '4:29'
     end: '5:21'
     label: 0
   - start: '5:22'
+    mid: '6:10'
     end: '7:00'
     label: 0
   - start: '7:01'
+    mid: '7:24'
     end: '8:20'
     label: 0
 VID_20190206_220524.mp4:
   - start: '0:00'
+    mid: '0:26'
     end: '1:27'
     label: 1
   - start: '2:09'
+    mid: '3:24'
     end: '5:03'
     label: 1
   - start: '5:21'
+    mid: '6:18'
     end: '7:18'
     label: 1
   - start: '8:03'
+    mid: '9:03'
     end: '10:11'
     label: 1
 VID_20190206_220549.mp4:
   - start: '4:17'
+    mid: '6:02'
     end: '7:11'
     label: 0
   - start: '9:17'
+    mid: '11:00'
     end: '12:11'
     label: 0
   - start: '14:05'
+    mid: '15:12'
     end: '16:19'
     label: 0
   - start: '17:00'
+    mid: '18:11'
     end: '19:14'
     label: 0
   - start: '19:20'
+    mid: '21:12'
     end: '22:15'
     label: 0
 VID_20190206_220722.mp4:
   - start: '2:00'
+    mid: '3:15'
     end: '4:17'
     label: 1
   - start: '4:18'
+    mid: '5:22'
     end: '7:00'
     label: 1
   - start: '7:02'
+    mid: '8:07'
     end: '9:09'
     label: 1
   - start: '9:10'
+    mid: '10:20'
     end: '11:21'
     label: 1
   - start: '11:25'
+    mid: '13:04'
     end: '14:03'
     label: 1
 VID_20190206_220756.mp4:
   - start: '0:27'
+    mid: '4:20'
     end: '6:12'
     label: 0
   - start: '6:13'
+    mid: '10:07'
     end: '12:11'
     label: 0
   - start: '15:00'
+    mid: '17:05'
     end: '19:00'
     label: 0
   - start: '19:01'
+    mid: '20:15'
     end: '21:16'
-    label: 0
+    label: 1
   - start: '21:17'
+    mid: '23:07'
     end: '24:15'
-    label: 0
+    label: 1
 VID_20190206_220851.mp4:
   - start: '3:14'
+    mid: '5:13'
     end: '7:00'
     label: 1
   - start: '7:25'
+    mid: '9:26'
     end: '11:02'
     label: 1
   - start: '11:05'
+    mid: '14:21'
     end: '16:15'
     label: 1
   - start: '17:00'
+    mid: '18:12'
     end: '20:09'
     label: 1
   - start: '21:00'
+    mid: '23:23'
     end: '24:28'
     label: 1
 VID_20190206_220930.mp4:
   - start: '0:00'
+    mid: '1:00'
     end: '3:21'
     label: 0
   - start: '4:00'
+    mid: '5:09'
     end: '7:11'
     label: 0
   - start: '7:20'
+    mid: '9:16'
     end: '11:13'
     label: 0
   - start: '13:22'
+    mid: '15:19'
     end: '17:23'
     label: 0
   - start: '17:25'
+    mid: '21:02'
     end: '23:24'
     label: 0
   - start: '23:30'
+    mid: '26:18'
     end: '28:13'
+    label: 0
+  - start: '28:22'
+    mid: '30:26'
+    end: '32:26'
     label: 0
 VID_20190206_221142.mp4:
   - start: '01:00'
+    mid: '2:14'
     end: '3:25'
     label: 1
   - start: '3:26'
+    mid: '5:19'
     end: '6:26'
     label: 1
   - start: '6:27'
+    mid: '8:28'
     end: '10:07'
     label: 1
   - start: '10:10'
+    mid: '11:23'
     end: '13:03'
     label: 1
   - start: '13:05'
+    mid: '14:17'
     end: '15:21'
     label: 1
 VID_20190206_221217.mp4:
   - start: '0:00'
+    mid: '1:18'
     end: '3:04'
     label: 0
   - start: '3:05'
+    mid: '4:23'
     end: '6:07'
     label: 0
   - start: '6:08'
+    mid: '8:12'
     end: '9:28'
     label: 0
   - start: '9:29'
+    mid: '11:20'
     end: '13:03'
     label: 0
   - start: '13:05'
+    mid: '14:28'
     end: '16:15'
     label: 0
 VID_20190206_221549.mp4:
   - start: '0:10'
+    mid: '2:00'
     end: '3:13'
     label: 1
   - start: '3:17'
+    mid: '5:10'
     end: '6:28'
     label: 1
   - start: '6:29'
+    mid: '9:01'
     end: '10:26'
     label: 1
   - start: '10:27'
+    mid: '12:15'
     end: '13:24'
     label: 1
   - start: '13:25'
-    end: '27:06'
+    mid: '15:27'
+    end: '17:06'
     label: 1
 VID_20190206_221611.mp4:
   - start: '1:10'
+    mid: '2:23'
     end: '4:02'
     label: 0
   - start: '4:03'
+    mid: '6:22'
     end: '8:16'
     label: 0
   - start: '8:17'
+    mid: '10:14'
     end: '11:29'
     label: 0
   - start: '11:30'
+    mid: '13:21'
     end: '15:10'
     label: 0
   - start: '15:20'
+    mid: '16:18'
     end: '17:15'
     label: 0
 VID_20190227_211605.mp4:
   - start: '0:27'
+    mid: '2:01'
     end: '3:11'
     label: 1
   - start: '3:12'
+    mid: '4:13'
     end: '5:26'
     label: 1
   - start: '5:27'
+    mid: '7:00'
     end: '8:13'
     label: 1
   - start: '8:15'
+    mid: '9:17'
     end: '10:22'
     label: 1
   - start: '10:25'
+    mid: '12:05'
     end: '13:09'
     label: 1
 VID_20190227_211625.mp4:
   - start: '0:10'
+    mid: '1:03'
     end: '2:12'
     label: 0
   - start: '2:15'
+    mid: '3:27'
     end: '5:14'
     label: 0
   - start: '5:17'
+    mid: '6:29'
     end: '8:07'
     label: 0
   - start: '8:07'
+    mid: '9:27'
     end: '11:07'
     label: 0
   - start: '11:10'
+    mid: '12:15'
     end: '13:27'
     label: 0
 VID_20190227_212950.mp4:
   - start: '5:19'
+    mid: '7:21'
     end: '9:00'
     label: 1
   - start: '9:12'
+    mid: '10:19'
     end: '12:00'
     label: 1
   - start: '12:03'
+    mid: '13:04'
     end: '14:12'
     label: 1
   - start: '14:15'
+    mid: '17:10'
     end: '18:17'
     label: 1
   - start: '18:25'
+    mid: '20:09'
     end: '21:09'
     label: 1
 VID_20190227_213018.mp4:
   - start: '0:28'
+    mid: '2:04'
     end: '3:18'
     label: 0
   - start: '3:19'
+    mid: '4:26'
     end: '6:03'
     label: 0
   - start: '6:05'
+    mid: '7:14'
     end: '8:22'
     label: 0
   - start: '8:25'
+    mid: '10:05'
     end: '11:12'
     label: 0
 VID_20190311_185801.mp4:
   - start: '8:14'
+    mid: '9:15'
     end: '11:02'
     label: 1
   - start: '11:03'
+    mid: '11:29'
     end: '13:08'
     label: 1
   - start: '13:08'
+    mid: '14:13'
     end: '15:14'
     label: 1
   - start: '15:15'
+    mid: '16:22'
     end: '17:22'
     label: 1
   - start: '17:25'
+    mid: '18:29'
     end: '20:03'
     label: 1
   - start: '20:05'
+    mid: '21:10'
     end: '22:12'
     label: 1
   - start: '22:12'
+    mid: '23:23'
     end: '25:00'
     label: 1
   - start: '25:03'
+    mid: '26:06'
     end: '27:17'
     label: 1
   - start: '27:17'
+    mid: '28:15'
     end: '29:23'
     label: 1
   - start: '29:25'
+    mid: '30:28'
     end: '32:14'
     label: 1
 VID_20190311_185935.mp4:
   - start: '7:16'
+    mid: '9:15'
     end: '10:28'
     label: 0
   - start: '10:28'
+    mid: '12:00'
     end: '13:07'
     label: 0
   - start: '13:08'
+    mid: '14:15'
     end: '15:23'
     label: 0
   - start: '15:25'
+    mid: '17:00'
     end: '18:13'
     label: 0
   - start: '18:15'
+    mid: '19:16'
     end: '21:01'
     label: 0
   - start: '21:10'
+    mid: '22:02'
     end: '23:19'
     label: 0
   - start: '23:20'
+    mid: '26:00'
     end: '26:12'
     label: 0
   - start: '26:15'
+    mid: '27:21'
     end: '29:04'
     label: 0
 VID_20190311_190015.mp4:
   - start: '5:04'
+    mid: '5:21'
     end: '8:02'
     label: 1
   - start: '8:03'
+    mid: '9:17'
     end: '10:22'
     label: 1
   - start: '10:28'
+    mid: '12:06'
     end: '13:13'
     label: 1
   - start: '13:15'
+    mid: '14:22'
     end: '16:09'
     label: 1
   - start: '16:10'
+    mid: '17:17'
     end: '18:29'
     label: 1
   - start: '18:30'
+    mid: '20:04'
     end: '21:15'
     label: 1
   - start: '21:20'
+    mid: '22:24'
     end: '23:28'
     label: 1
   - start: '23:28'
+    mid: '25:11'
     end: '26:24'
     label: 1
   - start: '26:25'
+    mid: '28:01'
     end: '29:05'
     label: 1
   - start: '29:06'
+    mid: '30:20'
     end: '32:00'
     label: 1
 VID_20190311_190058.mp4:
   - start: '6:21'
+    mid: '8:01'
     end: '9:13'
     label: 0
   - start: '9:15'
+    mid: '10:08'
     end: '11:21'
     label: 0
   - start: '11:22'
+    mid: '12:22'
     end: '14:10'
     label: 0
   - start: '14:25'
+    mid: '15:07'
     end: '16:18'
     label: 0
   - start: '16:19'
+    mid: '18:02'
     end: '19:07'
     label: 0
   - start: '19:10'
+    mid: '20:17'
     end: '22:02'
     label: 0
   - start: '22:10'
+    mid: '23:10'
     end: '24:18'
     label: 0
   - start: '24:20'
+    mid: '25:27'
     end: '27:13'
     label: 0
   - start: '27:15'
+    mid: '28:18'
     end: '30:00'
     label: 0
   - start: '30:01'
+    mid: '31:01'
     end: '32:01'
     label: 0
 VID_20190311_190324.mp4:
   - start: '8:04'
+    mid: '9:11'
     end: '10:23'
     label: 1
   - start: '10:25'
+    mid: '12:03'
     end: '13:16'
     label: 1
   - start: '13:20'
+    mid: '15:00'
     end: '16:13'
     label: 1
   - start: '16:15'
+    mid: '17:16'
     end: '18:26'
     label: 1
   - start: '18:30'
+    mid: '20:10'
     end: '21:25'
     label: 1
   - start: '21:30'
+    mid: '23:03'
     end: '24:10'
     label: 1
   - start: '24:15'
+    mid: '25:17'
     end: '27:02'
     label: 1
   - start: '27:05'
+    mid: '28:08'
     end: '29:19'
     label: 1
   - start: '29:20'
+    mid: '31:01'
     end: '32:12'
     label: 1
   - start: '32:15'
+    mid: '33:23'
     end: '35:00'
     label: 1
 VID_20190311_190423.mp4:
   - start: '8:12'
+    mid: '9:12'
     end: '10:10'
     label: 0
   - start: '10:15'
+    mid: '11:19'
     end: '13:00'
     label: 0
   - start: '13:01'
+    mid: '14:01'
     end: '15:13'
     label: 0
   - start: '15:20'
+    mid: '16:22'
     end: '18:06'
     label: 0
   - start: '18:08'
+    mid: '19:13'
     end: '20:24'
     label: 0
   - start: '20:25'
+    mid: '21:26'
     end: '23:06'
     label: 0
   - start: '23:10'
+    mid: '24:06'
     end: '25:05'
     label: 0
   - start: '25:06'
+    mid: '26:17'
     end: '27:28'
     label: 0
   - start: '27:30'
+    mid: '29:01'
     end: '30:09'
     label: 0
   - start: '30:11'
+    mid: '31:26'
     end: '33:01'
     label: 0
 VID_20190311_191052.mp4:
   - start: '9:22'
+    mid: '10:25'
     end: '12:10'
     label: 1
   - start: '12:10'
+    mid: '13:08'
     end: '14:05'
     label: 1
   - start: '14:10'
+    mid: '15:17'
     end: '16:24'
     label: 1
   - start: '16:25'
+    mid: '17:20'
     end: '19:01'
     label: 1
   - start: '19:02'
+    mid: '19:25'
     end: '21:00'
     label: 1
   - start: '21:05'
+    mid: '22:02'
     end: '23:10'
     label: 1
   - start: '23:15'
+    mid: '24:07'
     end: '25:13'
     label: 1
   - start: '25:15'
+    mid: '26:13'
     end: '27:19'
     label: 1
   - start: '27:20'
+    mid: '28:16'
     end: '29:22'
     label: 1
   - start: '29:25'
+    mid: '30:25'
     end: '32:10'
     label: 1
 VID_20190311_191130.mp4:
   - start: '7:00'
+    mid: '8:08'
     end: '9:10'
     label: 0
   - start: '9:15'
+    mid: '10:20'
     end: '11:27'
     label: 0
   - start: '11:28'
+    mid: '13:03'
     end: '14:09'
     label: 0
   - start: '14:10'
+    mid: '15:17'
     end: '16:22'
     label: 0
   - start: '16:25'
+    mid: '17:20'
     end: '18:28'
     label: 0
   - start: '18:30'
+    mid: '20:21'
     end: '22:01'
     label: 0
   - start: '22:01'
+    mid: '23:06'
     end: '24:15'
     label: 0
   - start: '24:16'
+    mid: '25:29'
     end: '27:04'
     label: 0
   - start: '27:05'
+    mid: '28:17'
     end: '30:01'
     label: 0
   - start: '30:05'
+    mid: '31:05'
     end: '32:01'
     label: 0
 VID_20190311_191402.mp4:
   - start: '7:25'
+    mid: '9:16'
     end: '10:27'
     label: 1
   - start: '10:28'
+    mid: '12:07'
     end: '13:17'
     label: 1
   - start: '13:19'
+    mid: '14:17'
     end: '15:24'
     label: 1
   - start: '15:25'
+    mid: '16:29'
     end: '18:02'
     label: 1
   - start: '18:02'
+    mid: '19:09'
     end: '20:16'
     label: 1
   - start: '20:20'
+    mid: '21:20'
     end: '23:00'
     label: 1
   - start: '23:01'
+    mid: '24:00'
     end: '25:13'
     label: 1
   - start: '25:15'
+    mid: '26:09'
     end: '27:19'
     label: 1
   - start: '27:20'
+    mid: '28:19'
     end: '29:22'
     label: 1
   - start: '29:25'
+    mid: '31:04'
     end: '32:10'
     label: 1
   - start: '32:10'
+    mid: '33:19'
     end: '35:00'
     label: 1
 VID_20190311_191452.mp4:
   - start: '11:00'
+    mid: '12:09'
     end: '13:10'
     label: 0
   - start: '13:15'
+    mid: '15:09'
     end: '16:19'
     label: 0
   - start: '16:28'
+    mid: '17:27'
     end: '19:09'
     label: 0
   - start: '19:10'
+    mid: '20:09'
     end: '21:15'
     label: 0
   - start: '21:25'
+    mid: '22:18'
     end: '23:28'
     label: 0
   - start: '23:30'
+    mid: '25:05'
     end: '26:09'
     label: 0
   - start: '26:10'
+    mid: '27:13'
     end: '28:17'
     label: 0
   - start: '28:20'
+    mid: '29:27'
     end: '31:00'
     label: 0
   - start: '31:05'
+    mid: '32:03'
     end: '33:13'
     label: 0
   - start: '33:15'
+    mid: '34:17'
     end: '35:10'
     label: 0
   - start: '35:15'
+    mid: '37:02'
     end: '38:09'
     label: 0

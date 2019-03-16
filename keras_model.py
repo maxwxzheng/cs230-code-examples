@@ -5,16 +5,40 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.utils import to_categorical
 from keras import backend as K
 from keras import applications
+from keras.callbacks import CSVLogger
 import re
 import cv2
 import numpy as np
+import os
+import yaml
 
 import constants
 from utils import Utils
 
 class KerasModel():
 
-  def run(epochs=50, batch_size=-1, base_model='VGG16', base_model_layer=0, learning_rate=0.0001):
+  def run_all_experiments(overwrite=False):
+    configs = yaml.load(open('experiments/configs.yml'))
+    existing_result_files = os.listdir('experiments')
+    for experiment_id in configs.keys():
+      result_file_name = experiment_id + '.csv'
+      print((result_file_name in existing_result_files) and not overwrite)
+      if (result_file_name in existing_result_files) and not overwrite:
+        continue
+
+      config = configs[experiment_id]
+      KerasModel.run(epochs=config['epochs'],
+                     base_model=config['base_model'],
+                     base_model_layer=config['base_model_layer'],
+                     learning_rate=config['learning_rate'],
+                     result_file="experiments/{}".format(result_file_name))
+
+  def run(epochs=100,
+          batch_size=-1,
+          base_model='VGG16',
+          base_model_layer=0,
+          learning_rate=0.0001,
+          result_file='log.csv'):
     train_images, train_labels = KerasModel.load_images_and_labels(constants.FULL_SQUAT_TRAIN_FOLDER)
     dev_images, dev_labels = KerasModel.load_images_and_labels(constants.FULL_SQUAT_DEV_FOLDER)
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
@@ -51,14 +75,13 @@ class KerasModel():
     if batch_size == -1:
       batch_size = len(train_images)
 
-    model_final.fit(train_images, train_labels,
-                    batch_size=batch_size,
-                    epochs=epochs,
-                    verbose=1,
-                    validation_data=(dev_images, dev_labels))
-    score = model_final.evaluate(dev_images, dev_labels, verbose=0)
-    print('Test loss:', score[0])
-    print('Test accuracy:', score[1])
+    csv_logger = CSVLogger(result_file, separator=';')
+    history_callback = model_final.fit(train_images, train_labels,
+                                       batch_size=batch_size,
+                                       epochs=epochs,
+                                       verbose=1,
+                                       validation_data=(dev_images, dev_labels),
+                                       callbacks=[csv_logger])
 
   def extract_labels(file_names):
     labels = []
