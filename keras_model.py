@@ -6,6 +6,7 @@ from keras.utils import to_categorical
 from keras import backend as K
 from keras import applications
 from keras.callbacks import CSVLogger
+from keras.callbacks import EarlyStopping
 import re
 import cv2
 import numpy as np
@@ -37,7 +38,7 @@ class KerasModel():
                      result_file_name_prefix="experiments/{}".format(result_file_name_prefix),
                      test_mode=test_mode)
 
-  def run(epochs=100,
+  def run(max_epochs=50,
           batch_size=-1,
           base_model=None,
           base_model_layer=-1,
@@ -71,18 +72,24 @@ class KerasModel():
     if test_mode:
       train_images = train_images[:50]
       train_labels = train_labels[:50]
-      epochs = 2
+      max_epochs = 50
       batch_size = -1
+      min_delta = 1
+    else:
+      min_delta = 0.001
+
+    # Early stopping
+    early_stopping = EarlyStopping(monitor='loss', min_delta=min_delta, patience=2)
 
     if batch_size == -1:
       batch_size = len(train_images)
 
     model_log = model_final.fit(train_images, train_labels,
                                 batch_size=batch_size,
-                                epochs=epochs,
+                                epochs=max_epochs,
                                 verbose=1,
                                 validation_data=(dev_images, dev_labels),
-                                callbacks=[csv_logger])
+                                callbacks=[csv_logger, early_stopping])
 
     KerasModel.save_plot_history(model_log, result_file_name_prefix)
     KerasModel.save_model(model_final, result_file_name_prefix)
