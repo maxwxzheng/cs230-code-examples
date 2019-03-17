@@ -18,7 +18,7 @@ swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
 
 #### Setup data
 1. Create a folder under deep-squat called 'data'
-2. Create a folder under data called 'raw_data'
+2. Create folders under data called 'raw_data', 'full_squat_all', 'full_squat_train', 'full_squat_dev', 'full_squat_test'
 3. Put all the videos into 'raw_data' folder
 4. In console, if you are not in virtual env, run:
 ```
@@ -32,19 +32,17 @@ python3
 ```
 from data_processor import DataProcessor
 processor = DataProcessor()
-processor.extract_all_videos(False, True)
+processor.extract_all_videos(False, True, False)
+
+from data_augment import DataAugment
+DataAugment.run_for_full_squats()
 
 from data_shuffler import DataShuffler
 DataShuffler.shuffle_full_squat_data()
 ```
 
-You should have 6 new folders created under data folder.
-'full_squat_all' and 'sequence_squat_all' stores all the images for full squat and sequence squat.
+'full_squat_all' stores all the images for full squats. 'full_squat_train', 'full_squat_dev', 'full_squat_test' stores training data, dev data and test data for full squats.
 Note that a 'full_squat' is when the person squat to the bottom. It's mainly used by CNN to analyze a static image.
-A 'sequence_squat' includes all the frames of a squat from the beginning to the end. It's mainly used by Sequence model to analyze videos (TODO)
-
-'full_squat_train' and 'full_squat_dev' stores training data and dev data for full squats.
-'sequence_squat_train' and 'sequence_squat_dev' stores training data and dev data for sequence squats.
 
 #### Train CNN
 
