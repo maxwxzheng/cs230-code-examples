@@ -20,28 +20,30 @@ from utils import Utils
 
 class KerasModel():
 
-  def run_all_experiments(overwrite=False):
+  def run_all_experiments(overwrite=False, test_mode=False):
     configs = yaml.load(open('experiments/configs.yml'))
     existing_result_files = os.listdir('experiments')
     for experiment_id in configs.keys():
       result_file_name_prefix = experiment_id
-      print((result_file_name_prefix in existing_result_files) and not overwrite)
       if (result_file_name_prefix in existing_result_files) and not overwrite:
         continue
 
       config = configs[experiment_id]
       KerasModel.run(epochs=config['epochs'],
+                     batch_size=50,
                      base_model=config['base_model'],
                      base_model_layer=config['base_model_layer'],
                      learning_rate=config['learning_rate'],
-                     result_file_name_prefix="experiments/{}".format(result_file_name_prefix))
+                     result_file_name_prefix="experiments/{}".format(result_file_name_prefix),
+                     test_mode=test_mode)
 
   def run(epochs=100,
           batch_size=-1,
           base_model=None,
-          base_model_layer=0,
+          base_model_layer=-1,
           learning_rate=0.0001,
-          result_file_name_prefix='log'):
+          result_file_name_prefix='log',
+          test_mode=False):
     train_images, train_labels = KerasModel.load_images_and_labels(constants.FULL_SQUAT_TRAIN_FOLDER)
     dev_images, dev_labels = KerasModel.load_images_and_labels(constants.FULL_SQUAT_DEV_FOLDER)
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
@@ -49,6 +51,44 @@ class KerasModel():
     train_labels = to_categorical(train_labels)
     dev_labels = to_categorical(dev_labels)
 
+    if base_model in ['VGG16', 'ResNet50', 'Xception']:
+      model_final = KerasModel.existing_model(base_model, base_model_layer)
+    elif base_model == 'custom_model_1':
+      model_final = KerasModel.custom_model_1()
+    else:
+      raise "Unrecognized model {}".format(base_model)
+
+    print(model_final.layers)
+
+    model_final.compile(loss = "binary_crossentropy",
+                        optimizer = keras.optimizers.Adam(lr=learning_rate),
+                        metrics=["accuracy"])
+
+    # Save the result to csv file.
+    csv_file_name = result_file_name_prefix + '.csv'
+    csv_logger = CSVLogger(csv_file_name, separator=';')
+
+    if test_mode:
+      train_images = train_images[:50]
+      train_labels = train_labels[:50]
+      epochs = 2
+      batch_size = -1
+
+    if batch_size == -1:
+      batch_size = len(train_images)
+
+    model_log = model_final.fit(train_images, train_labels,
+                                batch_size=batch_size,
+                                epochs=epochs,
+                                verbose=1,
+                                validation_data=(dev_images, dev_labels),
+                                callbacks=[csv_logger])
+
+    KerasModel.save_plot_history(model_log, result_file_name_prefix)
+    KerasModel.save_model(model_final, result_file_name_prefix)
+    KerasModel.save_test_result(model_final, result_file_name_prefix)
+
+  def existing_model(base_model, base_model_layer):
     if base_model == 'VGG16':
       base_model = applications.VGG16(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
     elif base_model == 'ResNet50':
@@ -56,10 +96,7 @@ class KerasModel():
     elif base_model == 'Xception':
       base_model = applications.Xception(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
     else:
-      print("Using custom model")
-      if base_model_layer != -1 and base_model_layer != 0:
-        raise 'Custom model must use base_model_layer -1 or 0'
-      base_model = KerasModel.custom_model()
+      raise "Unrecognized existing model {}".format(base_model)
 
     if base_model_layer == -1:
       x = base_model.layers[-1].output
@@ -71,30 +108,21 @@ class KerasModel():
     x = Flatten()(x)
     x = Dense(128, activation="relu")(x)
     x = Dropout(0.5)(x)
-    predictions = Dense(2, activation='sigmoid')(x)
-    model_final = Model(input=base_model.input, output=predictions)
-    print(model_final.layers)
+    x = Dense(2, activation='sigmoid')(x)
+    return Model(input=base_model.input, output=x)
 
-    model_final.compile(loss = "binary_crossentropy",
-                        optimizer = keras.optimizers.Adam(lr=learning_rate),
-                        metrics=["accuracy"])
-
-    if batch_size == -1:
-      batch_size = len(train_images)
-
-    # Save the result to csv file.
-    csv_file_name = result_file_name_prefix + '.csv'
-    csv_logger = CSVLogger(csv_file_name, separator=';')
-    model_log = model_final.fit(train_images, train_labels,
-                                batch_size=batch_size,
-                                epochs=epochs,
-                                verbose=1,
-                                validation_data=(dev_images, dev_labels),
-                                callbacks=[csv_logger])
-
-    KerasModel.save_plot_history(model_log, result_file_name_prefix)
-    KerasModel.save_model(model_final, result_file_name_prefix)
-    KerasModel.save_test_result(model_final, result_file_name_prefix)
+  def custom_model_1():
+    model = Sequential()
+    input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
+    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_shape))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Flatten())
+    model.add(Dense(128, activation="relu"))
+    model.add(Dropout(0.5))
+    model.add(Dense(2, activation='sigmoid'))
+    return model
 
   def save_plot_history(model_log, result_file_name_prefix):
     fig = plt.figure()
@@ -136,15 +164,6 @@ class KerasModel():
     csv_file_name = result_file_name_prefix + '.csv'
     with open(csv_file_name,'a') as fd:
       fd.write(';'.join(['test', str(score[1]), str(score[0])]))
-
-  def custom_model():
-    model = Sequential()
-    input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
-    model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=input_shape))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-    return model
 
   def extract_labels(file_names):
     labels = []
