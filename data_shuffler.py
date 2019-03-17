@@ -18,6 +18,7 @@ class DataShuffler:
     DataShuffler.shuffle_data(
       constants.FULL_SQUAT_ALL_FOLDER,
       constants.FULL_SQUAT_DEV_FOLDER,
+      constants.FULL_SQUAT_TEST_FOLDER,
       constants.FULL_SQUAT_TRAIN_FOLDER)
 
   # Shuffle sequence squat data from 'all' folder into 'train' and 'dev' folders.
@@ -25,11 +26,13 @@ class DataShuffler:
     DataShuffler.shuffle_data(
       constants.SEQUENCE_SQUAT_ALL_FOLDER,
       constants.SEQUENCE_SQUAT_DEV_FOLDER,
+      constants.SEQUENCE_SQUAT_TEST_FOLDER,
       constants.SEQUENCE_SQUAT_TRAIN_FOLDER)
 
-  def shuffle_data(all_dir, dev_dir, train_dir):
+  def shuffle_data(all_dir, dev_dir, test_dir, train_dir):
     Utils.remake_folder(dev_dir)
     Utils.remake_folder(train_dir)
+    Utils.remake_folder(test_dir)
 
     filenames = Utils.get_image_names(all_dir)
 
@@ -39,13 +42,16 @@ class DataShuffler:
     filenames.sort()
     random.shuffle(filenames)
 
-    split = int(0.8 * len(filenames))
-    train_filenames = filenames[:split]
-    dev_filenames = filenames[split:]
+    num_train = int(0.9 * len(filenames))
+    num_dev = int(0.05 * len(filenames))
+    train_filenames = filenames[:num_train]
+    dev_filenames = filenames[num_train:num_train+num_dev]
+    test_filenames = filenames[num_train+num_dev:]
 
     # Copy files from all_dir to train_dir or dev_dir
     DataShuffler.copy_files(train_filenames, all_dir, train_dir)
     DataShuffler.copy_files(dev_filenames, all_dir, dev_dir)
+    DataShuffler.copy_files(test_filenames, all_dir, test_dir)
 
   def copy_files(file_names, src_dir, dst_dir):
     for file_name in file_names:
