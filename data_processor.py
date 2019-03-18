@@ -138,10 +138,3 @@ class DataProcessor():
     fractional_second = int(time[-2:])
     second = int(time[:-3])
     return second + fractional_second / 30
-
-  # def to_video():
-  # # https://gist.github.com/takuma7/44f9ecb028ff00e2132e
-  # fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-  # writer = cv2.VideoWriter('output.avi', fourcc, fps, (1920, 1080))
-  #   writer.write(pose_frame)
-  # writer.release()

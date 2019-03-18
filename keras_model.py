@@ -56,6 +56,8 @@ class KerasModel():
       model_final = KerasModel.existing_model(base_model, base_model_layer)
     elif base_model == 'custom_model_1':
       model_final = KerasModel.custom_model_1()
+    elif base_model == 'custom_model_2':
+      model_final = KerasModel.custom_model_2()
     else:
       raise "Unrecognized model {}".format(base_model)
 
@@ -128,6 +130,15 @@ class KerasModel():
     model.add(Flatten())
     model.add(Dense(128, activation="relu"))
     model.add(Dropout(0.5))
+    model.add(Dense(2, activation='sigmoid'))
+    return model
+
+  def custom_model_2():
+    model = Sequential()
+    input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape))
+    model.add(Conv2D(32, (3, 3), activation='relu'))
+    model.add(Flatten())
     model.add(Dense(2, activation='sigmoid'))
     return model
 
