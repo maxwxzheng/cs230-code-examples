@@ -88,7 +88,7 @@ class KerasModel():
       batch_size = -1
       min_delta = 1
     else:
-      min_delta = 0.0000001
+      min_delta = 0.0008
 
     # Early stopping
     early_stopping = EarlyStopping(monitor='loss', min_delta=min_delta, patience=2)
@@ -101,7 +101,7 @@ class KerasModel():
                                 epochs=max_epochs,
                                 verbose=1,
                                 validation_data=(dev_images, dev_labels),
-                                callbacks=[csv_logger, early_stopping])
+                                callbacks=[csv_logger""", early_stopping"""])
 
     KerasModel.save_plot_history(model_log, result_file_name_prefix)
     KerasModel.save_model(model_final, result_file_name_prefix)
