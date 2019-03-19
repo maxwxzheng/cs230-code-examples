@@ -30,7 +30,7 @@ class KerasModel():
       if experiment_id == start:
         started = True
 
-      if not started
+      if not started:
         continue
 
       result_file_name_prefix = experiment_id
