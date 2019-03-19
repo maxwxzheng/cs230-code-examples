@@ -101,7 +101,7 @@ class KerasModel():
                                 epochs=max_epochs,
                                 verbose=1,
                                 validation_data=(dev_images, dev_labels),
-                                callbacks=[csv_logger""", early_stopping"""])
+                                callbacks=[csv_logger])
 
     KerasModel.save_plot_history(model_log, result_file_name_prefix)
     KerasModel.save_model(model_final, result_file_name_prefix)
