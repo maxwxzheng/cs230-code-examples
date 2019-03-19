@@ -88,7 +88,7 @@ class KerasModel():
       batch_size = -1
       min_delta = 1
     else:
-      min_delta = 0.0008
+      min_delta = 0.0000001
 
     # Early stopping
     early_stopping = EarlyStopping(monitor='loss', min_delta=min_delta, patience=2)
