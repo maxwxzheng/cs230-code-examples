@@ -106,3 +106,57 @@ experiment_18:
   learning_rate: 0.00001
   max_epochs: 500
   regularizer_l: 0.000001
+experiment_19:
+  base_model: 'custom_model_4'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.0001
+experiment_20:
+  base_model: 'custom_model_4'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.00001
+experiment_21:
+  base_model: 'custom_model_4'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.000001
+experiment_22:
+  base_model: 'custom_model_5'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.0001
+experiment_23:
+  base_model: 'custom_model_5'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.00001
+experiment_24:
+  base_model: 'custom_model_5'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.000001
+experiment_25:
+  base_model: 'custom_model_6'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.0001
+experiment_26:
+  base_model: 'custom_model_6'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.00001
+experiment_27:
+  base_model: 'custom_model_6'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.000001
