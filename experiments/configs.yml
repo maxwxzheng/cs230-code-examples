@@ -88,3 +88,21 @@ experiment_15:
   learning_rate: 0.00001
   max_epochs: 50
   regularizer_l: 0.0001
+experiment_16:
+  base_model: 'custom_model_3'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.0001
+experiment_17:
+  base_model: 'custom_model_3'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.00001
+experiment_18:
+  base_model: 'custom_model_3'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 500
+  regularizer_l: 0.000001
