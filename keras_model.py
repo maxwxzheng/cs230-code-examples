@@ -14,7 +14,7 @@ import numpy as np
 import os
 import yaml
 import matplotlib as mpl
-mpl.use('TkAgg')
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 import constants
@@ -37,7 +37,8 @@ class KerasModel():
                      base_model_layer=config['base_model_layer'],
                      learning_rate=config['learning_rate'],
                      result_file_name_prefix="experiments/{}".format(result_file_name_prefix),
-                     test_mode=test_mode)
+                     test_mode=test_mode,
+                     regularizer_l=config['regularizer_l'])
 
   def run(max_epochs=50,
           batch_size=-1,
@@ -45,7 +46,8 @@ class KerasModel():
           base_model_layer=-1,
           learning_rate=0.0001,
           result_file_name_prefix='log',
-          test_mode=False):
+          test_mode=False,
+          regularizer_l=0.01):
     train_images, train_labels = KerasModel.load_images_and_labels(constants.FULL_SQUAT_TRAIN_FOLDER)
     dev_images, dev_labels = KerasModel.load_images_and_labels(constants.FULL_SQUAT_DEV_FOLDER)
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
@@ -54,9 +56,9 @@ class KerasModel():
     dev_labels = to_categorical(dev_labels)
 
     if base_model in ['VGG16', 'ResNet50', 'Xception']:
-      model_final = KerasModel.existing_model(base_model, base_model_layer)
+      model_final = KerasModel.existing_model(base_model, base_model_layer, regularizer_l)
     elif base_model.startswith('custom_model_'):
-      model_final = getattr(KerasModel, base_model)()
+      model_final = getattr(KerasModel, base_model)(regularizer_l)
     else:
       raise "Unrecognized model {}".format(base_model)
 
@@ -96,7 +98,7 @@ class KerasModel():
     KerasModel.save_model(model_final, result_file_name_prefix)
     KerasModel.save_test_result(model_final, result_file_name_prefix)
 
-  def existing_model(base_model, base_model_layer):
+  def existing_model(base_model, base_model_layer, l):
     if base_model == 'VGG16':
       base_model = applications.VGG16(weights = "imagenet", include_top=False, input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3))
     elif base_model == 'ResNet50':
@@ -114,43 +116,59 @@ class KerasModel():
       x = base_model.layers[base_model_layer].output
 
     x = Flatten()(x)
-    x = Dense(64, activation="relu")(x)
+    x = Dense(512, activation="relu", kernel_regularizer=regularizers.l2(l))(x)
+    x = Dense(128, activation="relu", kernel_regularizer=regularizers.l2(l))(x)
     x = Dense(2, activation='sigmoid')(x)
     return Model(input=base_model.input, output=x)
 
-  def custom_model_1():
+  def custom_model_1(l):
     model = Sequential()
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
-    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(0.001)))
-    model.add(Conv2D(128, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.001)))
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
-    model.add(Dense(128, activation="relu", kernel_regularizer=regularizers.l2(0.001)))
-    model.add(Dropout(0.5))
+    model.add(Dense(128, activation="relu", kernel_regularizer=regularizers.l2(l)))
+    model.add(Dense(64, activation="relu", kernel_regularizer=regularizers.l2(l)))
     model.add(Dense(2, activation='sigmoid'))
     return model
 
-  def custom_model_2():
+  def custom_model_2(l):
     model = Sequential()
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
-    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(0.001)))
-    model.add(Conv2D(64, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.001)))
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Conv2D(128, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(Conv2D(128, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
-    model.add(Dense(64, activation="relu", kernel_regularizer=regularizers.l2(0.001)))
-    model.add(Dropout(0.5))
+    model.add(Dense(256, activation="relu", kernel_regularizer=regularizers.l2(l)))
+    model.add(Dense(128, activation="relu", kernel_regularizer=regularizers.l2(l)))
     model.add(Dense(2, activation='sigmoid'))
     return model
 
-  def custom_model_3():
+  def custom_model_3(l):
     model = Sequential()
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
-    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(0.001)))
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Conv2D(128, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(Conv2D(128, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Conv2D(256, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(Conv2D(256, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(l)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
-    model.add(Dense(32, activation="relu", kernel_regularizer=regularizers.l2(0.001)))
+    model.add(Dense(512, activation="relu", kernel_regularizer=regularizers.l2(l)))
+    model.add(Dense(128, activation="relu", kernel_regularizer=regularizers.l2(l)))
     model.add(Dense(2, activation='sigmoid'))
     return model
 

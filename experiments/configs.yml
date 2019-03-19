@@ -1,25 +1,90 @@
-experiment_2:
-  base_model: 'custom_model_2'
-  base_model_layer: -1
-  learning_rate: 0.00001
-  max_epochs: 50
-experiment_3:
-  base_model: 'custom_model_3'
-  base_model_layer: -1
-  learning_rate: 0.00001
-  max_epochs: 50
-experiment_4:
+experiment_1:
   base_model: 'VGG16'
   base_model_layer: -1
-  learning_rate: 0.0001
-  max_epochs: 50
-experiment_5:
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.01
+experiment_2:
+  base_model: 'VGG16'
+  base_model_layer: -1
+  learning_rate: 0.000001
+  max_epochs: 100
+  regularizer_l: 0.01
+experiment_3:
   base_model: 'ResNet50'
   base_model_layer: -1
-  learning_rate: 0.0001
-  max_epochs: 50
+  learning_rate: 0.000001
+  max_epochs: 100
+  regularizer_l: 0.01
+experiment_4:
+  base_model: 'ResNet50'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.01
+experiment_5:
+  base_model: 'Xception'
+  base_model_layer: -1
+  learning_rate: 0.000001
+  max_epochs: 100
+  regularizer_l: 0.01
 experiment_6:
   base_model: 'Xception'
   base_model_layer: -1
-  learning_rate: 0.0001
-  max_epochs: 50
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.01
+experiment_7:
+  base_model: 'custom_model_1'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.01
+experiment_8:
+  base_model: 'custom_model_1'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.001
+experiment_9:
+  base_model: 'custom_model_1'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.0001
+experiment_10:
+  base_model: 'custom_model_2'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.01
+experiment_11:
+  base_model: 'custom_model_2'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.001
+experiment_12:
+  base_model: 'custom_model_2'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.0001
+experiment_13:
+  base_model: 'custom_model_3'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.01
+experiment_14:
+  base_model: 'custom_model_3'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.001
+experiment_15:
+  base_model: 'custom_model_3'
+  base_model_layer: -1
+  learning_rate: 0.00001
+  max_epochs: 100
+  regularizer_l: 0.0001
