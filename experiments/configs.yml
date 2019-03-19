@@ -2,11 +2,11 @@ experiment_1:
   base_model: 'VGG16'
   base_model_layer: -1
   learning_rate: 0.00001
-  max_epochs: 500
+  max_epochs: 250
   regularizer_l: 0.01
 experiment_2:
   base_model: 'VGG16'
   base_model_layer: -1
   learning_rate: 0.000001
-  max_epochs: 500
+  max_epochs: 250
   regularizer_l: 0.01
