@@ -22,13 +22,22 @@ from utils import Utils
 
 class KerasModel():
 
-  def run_all_experiments(overwrite=False, test_mode=False):
+  def run_all_experiments(overwrite=False, start='experiment_1', test_mode=False):
     configs = yaml.load(open('experiments/configs.yml'))
     existing_result_files = os.listdir('experiments')
+    started = False
     for experiment_id in configs.keys():
+      if experiment_id == start:
+        started = True
+
+      if not started
+        continue
+
       result_file_name_prefix = experiment_id
       if (result_file_name_prefix in existing_result_files) and not overwrite:
         continue
+
+      print("Running experiment {}".format(experiment_id))
 
       config = configs[experiment_id]
       KerasModel.run(max_epochs=config['max_epochs'],
