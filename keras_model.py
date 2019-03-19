@@ -32,7 +32,7 @@ class KerasModel():
 
       config = configs[experiment_id]
       KerasModel.run(max_epochs=config['max_epochs'],
-                     batch_size=100,
+                     batch_size=500,
                      base_model=config['base_model'],
                      base_model_layer=config['base_model_layer'],
                      learning_rate=config['learning_rate'],

@@ -71,3 +71,11 @@ source .env/bin/activate
 ```
 deactivate
 ```
+
+## Run models on AWS
+```
+ssh ubuntu@ec2-34-208-164-122.us-west-2.compute.amazonaws.com
+cd deep-squat/
+source activate tensorflow_p36
+nohup python3 run_model.py > output.log &
+```
