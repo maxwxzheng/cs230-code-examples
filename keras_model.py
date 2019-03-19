@@ -7,6 +7,7 @@ from keras import backend as K
 from keras import applications
 from keras.callbacks import CSVLogger
 from keras.callbacks import EarlyStopping
+from keras import regularizers
 import re
 import cv2
 import numpy as np
@@ -30,8 +31,8 @@ class KerasModel():
         continue
 
       config = configs[experiment_id]
-      KerasModel.run(epochs=config['epochs'],
-                     batch_size=50,
+      KerasModel.run(max_epochs=config['max_epochs'],
+                     batch_size=100,
                      base_model=config['base_model'],
                      base_model_layer=config['base_model_layer'],
                      learning_rate=config['learning_rate'],
@@ -54,10 +55,8 @@ class KerasModel():
 
     if base_model in ['VGG16', 'ResNet50', 'Xception']:
       model_final = KerasModel.existing_model(base_model, base_model_layer)
-    elif base_model == 'custom_model_1':
-      model_final = KerasModel.custom_model_1()
-    elif base_model == 'custom_model_2':
-      model_final = KerasModel.custom_model_2()
+    elif base_model.startswith('custom_model_'):
+      model_final = getattr(KerasModel, base_model)()
     else:
       raise "Unrecognized model {}".format(base_model)
 
@@ -78,7 +77,7 @@ class KerasModel():
       batch_size = -1
       min_delta = 1
     else:
-      min_delta = 0.001
+      min_delta = 0.0008
 
     # Early stopping
     early_stopping = EarlyStopping(monitor='loss', min_delta=min_delta, patience=2)
@@ -115,20 +114,19 @@ class KerasModel():
       x = base_model.layers[base_model_layer].output
 
     x = Flatten()(x)
-    x = Dense(128, activation="relu")(x)
-    x = Dropout(0.5)(x)
+    x = Dense(64, activation="relu")(x)
     x = Dense(2, activation='sigmoid')(x)
     return Model(input=base_model.input, output=x)
 
   def custom_model_1():
     model = Sequential()
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
-    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_shape))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(0.001)))
+    model.add(Conv2D(128, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.001)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
-    model.add(Dense(128, activation="relu"))
+    model.add(Dense(128, activation="relu", kernel_regularizer=regularizers.l2(0.001)))
     model.add(Dropout(0.5))
     model.add(Dense(2, activation='sigmoid'))
     return model
@@ -136,9 +134,23 @@ class KerasModel():
   def custom_model_2():
     model = Sequential()
     input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
-    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape))
-    model.add(Conv2D(32, (3, 3), activation='relu'))
+    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(0.001)))
+    model.add(Conv2D(64, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(0.001)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
     model.add(Flatten())
+    model.add(Dense(64, activation="relu", kernel_regularizer=regularizers.l2(0.001)))
+    model.add(Dropout(0.5))
+    model.add(Dense(2, activation='sigmoid'))
+    return model
+
+  def custom_model_3():
+    model = Sequential()
+    input_shape = (constants.IMAGE_HEIGHT, constants.IMAGE_WIDTH, 3)
+    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=regularizers.l2(0.001)))
+    model.add(Dropout(0.25))
+    model.add(Flatten())
+    model.add(Dense(32, activation="relu", kernel_regularizer=regularizers.l2(0.001)))
     model.add(Dense(2, activation='sigmoid'))
     return model
 

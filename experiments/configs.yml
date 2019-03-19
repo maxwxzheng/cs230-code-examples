@@ -1,45 +1,25 @@
-experiment_1:
-  base_model: 'custom_model_1'
-  base_model_layer: -1
-  learning_rate: 0.0001
-  epochs: 20
 experiment_2:
-  base_model: 'custom_model_1'
+  base_model: 'custom_model_2'
   base_model_layer: -1
   learning_rate: 0.00001
-  epochs: 25
+  max_epochs: 50
 experiment_3:
-  base_model: 'custom_model_1'
+  base_model: 'custom_model_3'
   base_model_layer: -1
-  learning_rate: 0.000001
-  epochs: 25
+  learning_rate: 0.00001
+  max_epochs: 50
 experiment_4:
   base_model: 'VGG16'
-  base_model_layer: 1
-  learning_rate: 0.00001
-  epochs: 25
+  base_model_layer: -1
+  learning_rate: 0.0001
+  max_epochs: 50
 experiment_5:
-  base_model: 'VGG16'
-  base_model_layer: 2
-  learning_rate: 0.00001
-  epochs: 25
+  base_model: 'ResNet50'
+  base_model_layer: -1
+  learning_rate: 0.0001
+  max_epochs: 50
 experiment_6:
-  base_model: 'ResNet50'
-  base_model_layer: 1
-  learning_rate: 0.00001
-  epochs: 25
-experiment_7:
-  base_model: 'ResNet50'
-  base_model_layer: 2
-  learning_rate: 0.00001
-  epochs: 25
-experiment_8:
   base_model: 'Xception'
-  base_model_layer: 1
-  learning_rate: 0.00001
-  epochs: 25
-experiment_9:
-  base_model: 'Xception'
-  base_model_layer: 2
-  learning_rate: 0.00001
-  epochs: 25
+  base_model_layer: -1
+  learning_rate: 0.0001
+  max_epochs: 50
