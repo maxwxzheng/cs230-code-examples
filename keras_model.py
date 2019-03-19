@@ -155,8 +155,8 @@ class KerasModel():
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
-    model.add(Dense(256, activation="relu", kernel_regularizer=regularizers.l2(l)))
     model.add(Dense(128, activation="relu", kernel_regularizer=regularizers.l2(l)))
+    model.add(Dense(64, activation="relu", kernel_regularizer=regularizers.l2(l)))
     model.add(Dense(2, activation='sigmoid'))
     return model
 
@@ -176,8 +176,8 @@ class KerasModel():
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
-    model.add(Dense(512, activation="relu", kernel_regularizer=regularizers.l2(l)))
     model.add(Dense(128, activation="relu", kernel_regularizer=regularizers.l2(l)))
+    model.add(Dense(64, activation="relu", kernel_regularizer=regularizers.l2(l)))
     model.add(Dense(2, activation='sigmoid'))
     return model
 
